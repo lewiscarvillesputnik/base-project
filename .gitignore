@@ -17,6 +17,8 @@ coverage*.out
 
 dock.sh
 
+node_modules
+
 GoBuilds
 dist
 

@@ -1,0 +1,6 @@
+{{ define "main" }}
+<div>This is the 404 template</div>
+{{ range .Params.components }}
+ {{ partial .template . }}
+ {{ end }}
+{{ end }}

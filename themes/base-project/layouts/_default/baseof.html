@@ -4,49 +4,57 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ if .Params.title }}{{.Params.title}}{{ else }}{{ .Site.Title }}{{ end }}</title>
-    <meta name="description" content="{{ if .Params.description }}{{.Params.description}}{{ end }}" />
+    <title>{{ if .Params.title }}{{ .Params.title }}{{ else }}{{ .Site.Title }}{{ end }}</title>
+    <meta name="description" content="{{ if .Params.description }}{{ .Params.description }}{{ end }}" />
     <link rel="preload" href="/fonts/regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/bold.woff2" as="font" type="font/woff2" crossorigin />
-
-    {{- $ENV := $.Site.Params.environment | default "local" -}}
-    {{ if .Params.Layout }}
-      {{ $filename := .Params.Layout }}
-      {{ $criticalCSS := resources.Get (printf "/scss/critical/%s.scss" $filename) | toCSS (dict "targetPath" (printf "/css/critical/%s.css" $filename) "enableSourceMap" true) }}
-      {{ $nonCriticalCSS := resources.Get (printf "/scss/non-critical/%s.scss" $filename) | toCSS (dict "targetPath" (printf "/css/non-critical/%s.css" $filename) "enableSourceMap" true) }}
-      {{ $nonCriticalProdCSS := resources.Get (printf "/scss/non-critical/%s.scss" $filename) | toCSS (dict "targetPath" (printf "/css/non-critical/%s.css" $filename) "enableSourceMap" true) | minify }} {{ $secureCSS := $nonCriticalProdCSS | resources.Fingerprint "sha512" }}
-      {{- if eq $ENV "local" -}}
-        <link rel="stylesheet" href="{{ ($criticalCSS).RelPermalink }}" />
-        {{ else }}
-        {{ with resources.Get (printf "/scss/critical/%s.scss" $filename) | toCSS | minify }}
-        <style>{{ .Content | safeCSS }}</style>
-        {{ end }}
-      {{ end }}
-      <script>!function(e){"use strict";var t=function(t,n,r,o){if(11!=function(){var e=navigator.userAgent.toLowerCase().indexOf("msie ");if(e>0){var t=parseInt(navigator.userAgent.substring(e+5,navigator.userAgent.indexOf(".",e)));return document.documentMode&&(t=document.documentMode),t<7&&(t=7),t}return!(!Object.hasOwnProperty.call(window,"ActiveXObject")||window.ActiveXObject)&&11}()){var i,a=e.document,d=a.createElement("link");if(n)i=n;else{var s=(a.body||a.getElementsByTagName("head")[0]).childNodes;i=s[s.length-1]}var u=a.styleSheets;if(o)for(var l in o)o.hasOwnProperty(l)&&d.setAttribute(l,o[l]);d.rel="stylesheet",d.href=t,d.media="only x",function e(t){if(a.body)return t();setTimeout(function(){e(t)})}(function(){i.parentNode.insertBefore(d,n?i:i.nextSibling)});var f=function(e){for(var t=d.href,n=u.length;n--;)if(u[n].href===t)return e();setTimeout(function(){f(e)})};function c(){d.addEventListener&&d.removeEventListener("load",c),d.media=r||"all"}return d.addEventListener&&d.addEventListener("load",c),d.onloadcssdefined=f,f(c),d}var v=document.createElement("link");v.rel="stylesheet",v.href=t,document.head.appendChild(v)};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);</script>
-      <script>loadCSS({{ ($nonCriticalCSS).RelPermalink }})</script>
-    {{- else }}
-      {{- if eq $ENV "local" -}}
-        {{ $CSS := resources.Get (printf "/scss/base-project.scss") | toCSS (dict "targetPath" (printf "/css/base-project.css") "enableSourceMap" true) }}
-        <link rel="stylesheet" href="{{ ($CSS).RelPermalink }}" />
-      {{ else }}
-        {{ $CSS := resources.Get (printf "/scss/base-project.scss") | toCSS (dict "targetPath" (printf "/css/base-project.css") "enableSourceMap" true) | minify }} {{ $secureCSS := $CSS | resources.Fingerprint "sha512" }}
-        <link rel="stylesheet" href="{{ ($secureCSS).RelPermalink }}" integrity="{{ ($secureCSS).Data.Integrity }}" />
-      {{ end }}
-    {{ end }}
+{{- $ENV := $.Site.Params.environment | default "local" -}}
+{{- if .Params.Layout -}}
+    {{- $filename := .Params.Layout -}}
+    {{- $criticalCSS := resources.Get (printf "/scss/critical/%s.scss" $filename) | toCSS (dict "targetPath" (printf "/css/critical/%s.css" $filename) "enableSourceMap" true) -}}
+    {{- $nonCriticalCSS := resources.Get (printf "/scss/non-critical/%s.scss" $filename) | toCSS (dict "targetPath" (printf "/css/non-critical/%s.css" $filename) "enableSourceMap" true) -}}
+    {{- $nonCriticalProdCSS := resources.Get (printf "/scss/non-critical/%s.scss" $filename) | toCSS (dict "targetPath" (printf "/css/non-critical/%s.css" $filename) "enableSourceMap" true) | minify -}}
+    {{- $secureCSS := $nonCriticalProdCSS | resources.Fingerprint "sha512" -}}
+  {{- if eq $ENV "local" }}
+    <link rel="stylesheet" href="{{ ($criticalCSS).RelPermalink }}" />
+  {{- else -}}
+    {{- with resources.Get (printf "/scss/critical/%s.scss" $filename) | toCSS | minify }}
+    <style>
+      {{ .Content | safeCSS }}
+    </style>
+    {{- end }}
+  {{ end }}
+    <script>!function(e){"use strict";var t=function(t,n,r,o){if(11!=function(){var e=navigator.userAgent.toLowerCase().indexOf("msie ");if(e>0){var t=parseInt(navigator.userAgent.substring(e+5,navigator.userAgent.indexOf(".",e)));return document.documentMode&&(t=document.documentMode),t<7&&(t=7),t}return!(!Object.hasOwnProperty.call(window,"ActiveXObject")||window.ActiveXObject)&&11}()){var i,a=e.document,d=a.createElement("link");if(n)i=n;else{var s=(a.body||a.getElementsByTagName("head")[0]).childNodes;i=s[s.length-1]}var u=a.styleSheets;if(o)for(var l in o)o.hasOwnProperty(l)&&d.setAttribute(l,o[l]);d.rel="stylesheet",d.href=t,d.media="only x",function e(t){if(a.body)return t();setTimeout(function(){e(t)})}(function(){i.parentNode.insertBefore(d,n?i:i.nextSibling)});var f=function(e){for(var t=d.href,n=u.length;n--;)if(u[n].href===t)return e();setTimeout(function(){f(e)})};function c(){d.addEventListener&&d.removeEventListener("load",c),d.media=r||"all"}return d.addEventListener&&d.addEventListener("load",c),d.onloadcssdefined=f,f(c),d}var v=document.createElement("link");v.rel="stylesheet",v.href=t,document.head.appendChild(v)};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);</script>
+    <script>loadCSS({{ ($nonCriticalCSS).RelPermalink }})</script> {{- else }}
+  {{- if eq $ENV "local" -}}
+    {{ $CSS := resources.Get (printf "/scss/base-project.scss") | toCSS (dict "targetPath" (printf "/css/base-project.css") "enableSourceMap" true) }}
+    <link rel="stylesheet" href="{{ ($CSS).RelPermalink }}" />
+  {{- else -}}
+    {{ $CSS := resources.Get (printf "/scss/base-project.scss") | toCSS (dict "targetPath" (printf "/css/base-project.css") "enableSourceMap" true) | minify }}
+    {{ $secureCSS := $CSS | resources.Fingerprint "sha512" }}
+    <link rel="stylesheet" href="{{ ($secureCSS).RelPermalink }}" integrity="{{ ($secureCSS).Data.Integrity }}" />
+  {{ end }}
+{{ end }}
   </head>
   <body ontouchstart="">
     {{ partial "header.html" }}
     <main class="main">
-      {{ block "main" . }}
+      {{- block "main" . }}
       <!-- The part of the page that begins to differ between templates -->
       {{ end }}
     </main>
     {{ partial "footer.html" }}
-    {{- $ENV := $.Site.Params.environment | default "local" -}}
-    {{- if eq $ENV "local" -}} {{ $global := resources.Get "/js/global.js" }}
-    <script src="{{ ($global).RelPermalink }}"></script>>
-    {{- else }} {{ $global := resources.Get "/js/global.js" | minify }} {{ $secureGlobal:= $global | resources.Fingerprint "sha512" }}
+ {{- $ENV := $.Site.Params.environment | default "local" -}}
+ {{- if eq $ENV "local" -}}
+    {{- $global := resources.Get "/js/global.js" -}}
+    {{- $lazyload := resources.Get "/js/lazyload.js" }}
+    <script src="{{ ($global).RelPermalink }}"></script>
+    <script src="{{ ($lazyload).RelPermalink }}"></script>
+{{- else }}
+    {{- $secureGlobal:= $global | resources.Fingerprint "sha512" | minify -}}
+    {{- $secureLazyload:= $lazyload | resources.Fingerprint "sha512" | minify -}}
     <script src="{{ ($secureGlobal).RelPermalink }}" integrity="{{ ($secureGlobal).Data.Integrity }}"></script>
-    {{- end }}
+    <script src="{{ ($secureLazyload).RelPermalink }}" integrity="{{ ($secureLazyload).Data.Integrity }}"></script>
+{{- end }}
   </body>
 </html>
