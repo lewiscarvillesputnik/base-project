@@ -46,15 +46,15 @@
     {{ partial "footer.html" }}
  {{- $ENV := $.Site.Params.environment | default "local" -}}
  {{- if eq $ENV "local" -}}
-    {{- $global := resources.Get "/js/global.js" -}}
-    {{- $lazyload := resources.Get "/js/lazyload.js" }}
-    <script src="{{ ($global).RelPermalink }}"></script>
-    <script src="{{ ($lazyload).RelPermalink }}"></script>
+    {{- $global := resources.Get "/js/global.js" | babel -}}
+    {{- $lazyload := resources.Get "/js/lazyload.js" | babel }}
+    <script type="module" src="{{ ($global).RelPermalink }}"></script>
+    <script type="module" ssrc="{{ ($lazyload).RelPermalink }}"></script>
 {{- else }}
-    {{- $secureGlobal:= $global | resources.Fingerprint "sha512" | minify -}}
-    {{- $secureLazyload:= $lazyload | resources.Fingerprint "sha512" | minify -}}
-    <script src="{{ ($secureGlobal).RelPermalink }}" integrity="{{ ($secureGlobal).Data.Integrity }}"></script>
-    <script src="{{ ($secureLazyload).RelPermalink }}" integrity="{{ ($secureLazyload).Data.Integrity }}"></script>
+    {{- $secureGlobal:= $global | resources.Fingerprint "sha512" | babel | minify -}}
+    {{- $secureLazyload:= $lazyload | resources.Fingerprint "sha512" | babel | minify -}}
+    <script type="module" src="{{ ($secureGlobal).RelPermalink }}" integrity="{{ ($secureGlobal).Data.Integrity }}"></script>
+    <script type="module" src="{{ ($secureLazyload).RelPermalink }}" integrity="{{ ($secureLazyload).Data.Integrity }}"></script>
 {{- end }}
   </body>
 </html>
