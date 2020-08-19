@@ -1,0 +1,3 @@
+{{ define "main" }}
+<div>This is the home template</div>
+{{ range .Params.components }} {{ partial .template . }} {{ end }} {{ end }}

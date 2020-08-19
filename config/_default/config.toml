@@ -1,0 +1,6 @@
+baseURL = "http://example.org/"
+languageCode = "en-uk"
+title = "Base Title"
+theme = "base-project"
+[params]
+  environment = "local"
