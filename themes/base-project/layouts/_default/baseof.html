@@ -9,8 +9,8 @@
     <link rel="preload" href="/fonts/regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/bold.woff2" as="font" type="font/woff2" crossorigin />
 {{- $ENV := $.Site.Params.environment | default "local" -}}
+{{- $filename := .Params.Layout -}}
 {{- if .Params.Layout -}}
-    {{- $filename := .Params.Layout -}}
     {{- $criticalCSS := resources.Get (printf "/scss/critical/%s.scss" $filename) | toCSS (dict "targetPath" (printf "/css/critical/%s.css" $filename) "enableSourceMap" true) -}}
     {{- $nonCriticalCSS := resources.Get (printf "/scss/non-critical/%s.scss" $filename) | toCSS (dict "targetPath" (printf "/css/non-critical/%s.css" $filename) "enableSourceMap" true) -}}
     {{- $nonCriticalProdCSS := resources.Get (printf "/scss/non-critical/%s.scss" $filename) | toCSS (dict "targetPath" (printf "/css/non-critical/%s.css" $filename) "enableSourceMap" true) | minify -}}
@@ -44,17 +44,18 @@
       {{ end }}
     </main>
     {{ partial "footer.html" }}
- {{- $ENV := $.Site.Params.environment | default "local" -}}
+ {{- $baseJS := resources.Get "/js/base.js" | babel -}}
+
  {{- if eq $ENV "local" -}}
-    {{- $global := resources.Get "/js/global.js" | babel -}}
-    {{- $lazyload := resources.Get "/js/lazyload.js" | babel }}
-    <script type="module" src="{{ ($global).RelPermalink }}"></script>
-    <script type="module" ssrc="{{ ($lazyload).RelPermalink }}"></script>
+ <script type="module" src="{{ ($baseJS).RelPermalink }}"></script>
+    {{- if .Params.Layout -}}
+    {{- $pageJS := resources.Get (printf "/js/%s.js" $filename) | babel -}}
+    <script type="module" src="{{ ($pageJS).RelPermalink }}"></script>
+    {{ end }}
 {{- else }}
-    {{- $secureGlobal:= $global | resources.Fingerprint "sha512" | babel | minify -}}
-    {{- $secureLazyload:= $lazyload | resources.Fingerprint "sha512" | babel | minify -}}
-    <script type="module" src="{{ ($secureGlobal).RelPermalink }}" integrity="{{ ($secureGlobal).Data.Integrity }}"></script>
-    <script type="module" src="{{ ($secureLazyload).RelPermalink }}" integrity="{{ ($secureLazyload).Data.Integrity }}"></script>
+    {{- $secureBaseJS := $baseJS | resources.Fingerprint "sha512" | minify -}}
+    <script type="module" src="{{ ($secureBaseJS).RelPermalink }}" integrity="{{ ($secureBaseJS).Data.Integrity }}"></script>
+
 {{- end }}
   </body>
 </html>

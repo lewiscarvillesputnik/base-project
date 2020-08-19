@@ -72,5 +72,3 @@ const global = () => {
 }
 
 export default global
-
-global()
