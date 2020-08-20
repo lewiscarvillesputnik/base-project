@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ if .Params.title }}{{ .Params.title }}{{ else }}{{ .Site.Title }}{{ end }}</title>
     <meta name="description" content="{{ if .Params.description }}{{ .Params.description }}{{ end }}" />
-    <link rel="preload" href="/fonts/regular.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/fonts/bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/NunitoSans-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/NunitoSans-Bold.woff2" as="font" type="font/woff2" crossorigin />
 {{- $ENV := $.Site.Params.environment | default "local" -}}
 {{- $filename := .Params.Layout -}}
 {{- if .Params.Layout -}}
@@ -44,18 +44,14 @@
       {{ end }}
     </main>
     {{ partial "footer.html" }}
- {{- $baseJS := resources.Get "/js/base.js" | babel -}}
-
- {{- if eq $ENV "local" -}}
- <script type="module" src="{{ ($baseJS).RelPermalink }}"></script>
-    {{- if .Params.Layout -}}
-    {{- $pageJS := resources.Get (printf "/js/%s.js" $filename) | babel -}}
-    <script type="module" src="{{ ($pageJS).RelPermalink }}"></script>
-    {{ end }}
-{{- else }}
-    {{- $secureBaseJS := $baseJS | resources.Fingerprint "sha512" | minify -}}
-    <script type="module" src="{{ ($secureBaseJS).RelPermalink }}" integrity="{{ ($secureBaseJS).Data.Integrity }}"></script>
-
-{{- end }}
+    {{ $lazyload := resources.Get "js/lazyload.js" }}
+    {{ $global := resources.Get "js/global.js" }}
+    {{ $JS := slice $global $lazyload | resources.Concat "js/bundle.js" }}
+  {{- if eq $ENV "local" -}}
+    <script src="{{ ($JS).RelPermalink }}"></script>
+  {{- else }}
+  {{- $secureJS := $JS | resources.Fingerprint "sha512" | minify -}}
+    <script src="{{ ($secureJS).RelPermalink }}" integrity="{{ ($secureJS).Data.Integrity }}"></script>
+  {{- end }}
   </body>
 </html>

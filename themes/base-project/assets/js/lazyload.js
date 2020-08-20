@@ -1,4 +1,4 @@
-const lazyload = () => {
+function lazyload () {
   /* -- Lazyload & WebP Support -- */
   /* ------------------------------------------------------------ */
   var config = {
@@ -244,6 +244,4 @@ const lazyload = () => {
   })
 }
 
-export default lazyload
-/* -- Lazyload & WebP Support -- */
-lazyload()
+lazyload();

@@ -1,4 +1,4 @@
-const global = () => {
+function global() {
   /* -- Enable keyboard only focus styles -- */
   /* ------------------------------------------------------------ */
   function enableKeyboardFocusStyles() {
@@ -71,4 +71,4 @@ const global = () => {
   detectPlatform()
 }
 
-export default global
+global();
