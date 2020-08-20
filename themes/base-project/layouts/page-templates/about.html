@@ -1,6 +1,6 @@
 {{ define "main" }}
 <div>This is the about template</div>
-  {{ range .Params.components }}
-    {{ partial .template . }}
-  {{ end }}
+{{ range .Params.components }}
+ {{ partial .template . }}
+ {{ end }}
 {{ end }}
