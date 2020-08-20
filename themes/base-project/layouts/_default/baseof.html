@@ -50,7 +50,7 @@
   {{- if eq $ENV "local" -}}
     <script src="{{ ($JS).RelPermalink }}"></script>
   {{- else }}
-  {{- $secureJS := $JS | resources.Fingerprint "sha512" | minify -}}
+  {{- $secureJS := $JS | minify | resources.Fingerprint "sha512" -}}
     <script src="{{ ($secureJS).RelPermalink }}" integrity="{{ ($secureJS).Data.Integrity }}"></script>
   {{- end }}
   </body>
