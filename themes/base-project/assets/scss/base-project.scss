@@ -1,3 +1,4 @@
-body {
-  background: grey;
-}
+@import "_variables/";
+@import "_base/";
+@import "components/header";
+@import "components/footer";

@@ -1,0 +1,36 @@
+html {
+  line-height: 1.25;
+  -webkit-text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  display: flex;
+  height: 100%;
+  font-family: $regular;
+  color: $greyXDark;
+}
+
+body {
+  height: 100%;
+  width: 100%;
+  min-width: 320px;
+  display: flex;
+  flex-direction: column;
+  background-color: $mainBackground;
+  flex-direction: column;
+}
+
+.main {
+  width: 100%;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  max-width: 1240px;
+  min-width: 320px;
+  margin: 0 auto;
+  padding: 30px 30px 40px;
+  box-sizing: border-box;
+}

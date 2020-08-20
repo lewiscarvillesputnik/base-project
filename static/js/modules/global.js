@@ -2,11 +2,11 @@ const global = () => {
   /* -- Enable keyboard only focus styles -- */
   /* ------------------------------------------------------------ */
   function enableKeyboardFocusStyles() {
-    var buttons = document.querySelectorAll('a, button')
+    var buttons = document.querySelectorAll("a, button")
 
     for (var i = 0; i < buttons.length; i++) {
       // Track mouse click on target elements
-      buttons[i].addEventListener('mousedown', function (e) {
+      buttons[i].addEventListener("mousedown", function (e) {
         e.preventDefault()
       })
     }
@@ -19,48 +19,48 @@ const global = () => {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera
 
       if (/windows phone/i.test(userAgent)) {
-        return 'Windows Phone'
+        return "Windows Phone"
       }
 
       if (/android/i.test(userAgent)) {
-        return 'Android'
+        return "Android"
       }
 
       if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-        return 'iOS'
+        return "iOS"
       }
 
-      return 'unknown'
+      return "unknown"
     }
 
     /* -- Detect if Windows or Mac platform -- */
     /* ------------------------------------------------------------ */
     function isWindows() {
-      return navigator.platform.indexOf('Win') > -1
+      return navigator.platform.indexOf("Win") > -1
     }
 
     function isMacintosh() {
-      return navigator.platform.indexOf('Mac') > -1
+      return navigator.platform.indexOf("Mac") > -1
     }
 
     var html = document.documentElement
 
     if (isWindows()) {
-      html.classList.add('platform-windows')
+      html.classList.add("platform-windows")
     }
     if (isMacintosh()) {
-      html.classList.add('platform-mac')
+      html.classList.add("platform-mac")
     }
-    if (getMobileOperatingSystem() === 'unknown') {
-      html.classList.add('platform-desktop')
+    if (getMobileOperatingSystem() === "unknown") {
+      html.classList.add("platform-desktop")
     } else {
-      html.classList.add('platform-mobile')
+      html.classList.add("platform-mobile")
     }
-    if (getMobileOperatingSystem() === 'Android') {
-      html.classList.add('platform-android')
+    if (getMobileOperatingSystem() === "Android") {
+      html.classList.add("platform-android")
     }
-    if (getMobileOperatingSystem() === 'iOS') {
-      html.classList.add('platform-ios')
+    if (getMobileOperatingSystem() === "iOS") {
+      html.classList.add("platform-ios")
     }
   }
 

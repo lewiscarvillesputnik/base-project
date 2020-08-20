@@ -2,18 +2,18 @@ const lazyload = () => {
   /* -- Lazyload & WebP Support -- */
   /* ------------------------------------------------------------ */
   var config = {
-      rootMargin: '0px 0px 200px 0px',
+      rootMargin: "0px 0px 200px 0px",
       threshold: 0,
     },
-    lazyloadImages = document.querySelectorAll('.js-lazyload')
+    lazyloadImages = document.querySelectorAll(".js-lazyload")
 
   /* Determine if browser supports webp image type */
   function supportsWebp() {
-    var elem = document.createElement('canvas')
-    if (!!(elem.getContext && elem.getContext('2d'))) {
-      var testString = !(window.mozInnerScreenX == null) ? 'png' : 'webp'
+    var elem = document.createElement("canvas")
+    if (!!(elem.getContext && elem.getContext("2d"))) {
+      var testString = !(window.mozInnerScreenX == null) ? "png" : "webp"
       // was able or not to get WebP representation
-      return elem.toDataURL('image/webp').indexOf('data:image/' + testString) == 0
+      return elem.toDataURL("image/webp").indexOf("data:image/" + testString) == 0
     }
     // very old browser like IE 8, canvas not supported
     return false
@@ -22,25 +22,25 @@ const lazyload = () => {
   /* Determine which size image to display */
   function imageSize(el) {
     /* Retina */
-    var retina = window.matchMedia('(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)').matches,
+    var retina = window.matchMedia("(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)").matches,
       /* Desktop */
-      standardDesktop = el.getAttribute('data-desktop-src'),
-      retinaDesktop = el.getAttribute('data-desktop-retina-src'),
-      desktopScreen = window.matchMedia('(min-width: 1025px)').matches,
+      standardDesktop = el.getAttribute("data-desktop-src"),
+      retinaDesktop = el.getAttribute("data-desktop-retina-src"),
+      desktopScreen = window.matchMedia("(min-width: 1025px)").matches,
       /* Tablet & Mobile */
-      standardTablet = el.getAttribute('data-tablet-src'),
-      retinaTablet = el.getAttribute('data-tablet-retina-src'),
-      standardMobile = el.getAttribute('data-mobile-src'),
-      retinaMobile = el.getAttribute('data-mobile-retina-src'),
-      tabletScreen = window.matchMedia('(min-width: 576px) and (max-width: 1024px)').matches,
-      mobileScreen = window.matchMedia('(max-width: 575px)').matches,
+      standardTablet = el.getAttribute("data-tablet-src"),
+      retinaTablet = el.getAttribute("data-tablet-retina-src"),
+      standardMobile = el.getAttribute("data-mobile-src"),
+      retinaMobile = el.getAttribute("data-mobile-retina-src"),
+      tabletScreen = window.matchMedia("(min-width: 576px) and (max-width: 1024px)").matches,
+      mobileScreen = window.matchMedia("(max-width: 575px)").matches,
       /* Alternative Tablet & Mobile */
-      standardAltTablet = el.getAttribute('data-tablet-alt-src'),
-      retinaAltTablet = el.getAttribute('data-tablet-alt-retina-src'),
-      standardAltMobile = el.getAttribute('data-mobile-alt-src'),
-      retinaAltMobile = el.getAttribute('data-mobile-alt-retina-src'),
-      tabletAltScreen = window.matchMedia('(min-width: 768px) and (max-width: 1024px)').matches,
-      mobileAltScreen = window.matchMedia('(max-width: 767px)').matches
+      standardAltTablet = el.getAttribute("data-tablet-alt-src"),
+      retinaAltTablet = el.getAttribute("data-tablet-alt-retina-src"),
+      standardAltMobile = el.getAttribute("data-mobile-alt-src"),
+      retinaAltMobile = el.getAttribute("data-mobile-alt-retina-src"),
+      tabletAltScreen = window.matchMedia("(min-width: 768px) and (max-width: 1024px)").matches,
+      mobileAltScreen = window.matchMedia("(max-width: 767px)").matches
 
     if (retina) {
       if (desktopScreen) {
@@ -95,31 +95,31 @@ const lazyload = () => {
 
   /* Determine the image src and procedure for setting the image */
   function imageType(el, src) {
-    if (el.hasAttribute('src')) {
+    if (el.hasAttribute("src")) {
       if (el.src !== src) {
         el.src = src
       }
     } else {
-      if (el.getAttribute('style') !== 'background-image: url(' + src + ')') {
-        el.setAttribute('style', 'background-image: url(' + src + ')')
+      if (el.getAttribute("style") !== "background-image: url(" + src + ")") {
+        el.setAttribute("style", "background-image: url(" + src + ")")
       }
     }
   }
 
   /* Determine image file type */
   function imageFileType(el) {
-    var defaultFileType = el.getAttribute('data-filetype'),
-      webp = el.getAttribute('data-uses-webp')
-    if (typeof webp !== undefined && webp === 'true' && supportsWebp()) {
-      return '.webp'
+    var defaultFileType = el.getAttribute("data-filetype"),
+      webp = el.getAttribute("data-uses-webp")
+    if (typeof webp !== undefined && webp === "true" && supportsWebp()) {
+      return ".webp"
     } else {
-      if (typeof defaultFileType !== undefined && defaultFileType !== null && defaultFileType !== '') {
-        return '.' + defaultFileType
+      if (typeof defaultFileType !== undefined && defaultFileType !== null && defaultFileType !== "") {
+        return "." + defaultFileType
       } else {
-        if (document.URL.indexOf('/service/') === -1) {
-          console.log('This element requires a data-filetype attribute:', el)
+        if (document.URL.indexOf("/service/") === -1) {
+          console.log("This element requires a data-filetype attribute:", el)
         }
-        return ''
+        return ""
       }
     }
   }
@@ -130,18 +130,18 @@ const lazyload = () => {
 
   /* Fade in the image */
   function fadeIn(el) {
-    if (!('classList' in document.documentElement) && Object.defineProperty && typeof HTMLElement !== 'undefined') {
+    if (!("classList" in document.documentElement) && Object.defineProperty && typeof HTMLElement !== "undefined") {
       // Support for IE9 / IE8
-      el.className += ' lazyloaded'
+      el.className += " lazyloaded"
     } else {
-      el.classList.add('lazyloaded')
+      el.classList.add("lazyloaded")
     }
   }
 
   /* Set Images on resize */
   function setImagesOnResize(image) {
-    window.addEventListener('resize', function () {
-      if ('IntersectionObserver' in window) {
+    window.addEventListener("resize", function () {
+      if ("IntersectionObserver" in window) {
         setImages(image)
       } else {
         lazyloadViaEvents()
@@ -151,8 +151,8 @@ const lazyload = () => {
 
   /* Set Images on orientationChange */
   function setImagesOnOrientationChange(image) {
-    window.addEventListener('orientationChange', function () {
-      if ('IntersectionObserver' in window) {
+    window.addEventListener("orientationChange", function () {
+      if ("IntersectionObserver" in window) {
         setImages(image)
       } else {
         lazyloadViaEvents()
@@ -162,8 +162,8 @@ const lazyload = () => {
 
   /* Set Images on scroll */
   function setImagesOnScroll(image) {
-    window.addEventListener('scroll', function () {
-      if (!('IntersectionObserver' in window)) {
+    window.addEventListener("scroll", function () {
+      if (!("IntersectionObserver" in window)) {
         lazyloadViaEvents()
       }
     })
@@ -185,7 +185,7 @@ const lazyload = () => {
 
   /* Modern browser implementation of lazyload using Intersection Observer */
   function modernBrowserLazyload(lazyloadImages) {
-    if ('IntersectionObserver' in window && typeof lazyloadImages !== 'undefined') {
+    if ("IntersectionObserver" in window && typeof lazyloadImages !== "undefined") {
       var imageObserver = new IntersectionObserver(function (entries, self) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
@@ -218,7 +218,7 @@ const lazyload = () => {
     }
     lazyloadThrottleTimeout = setTimeout(function () {
       var scrollTop = window.pageYOffset
-      var lazyloadImages = document.querySelectorAll('.js-lazyload')
+      var lazyloadImages = document.querySelectorAll(".js-lazyload")
       Array.prototype.forEach.call(lazyloadImages, function (innerEl, i) {
         if (getCoordinates(innerEl).Y < window.innerHeight + scrollTop) {
           setImages(innerEl)
@@ -230,7 +230,7 @@ const lazyload = () => {
 
   /* Old Browser (IE) implementation of lazyload using offset of image and scroll behaviour */
   function oldBrowserLazyload() {
-    if (!('IntersectionObserver' in window) && typeof lazyloadImages !== 'undefined') {
+    if (!("IntersectionObserver" in window) && typeof lazyloadImages !== "undefined") {
       lazyloadViaEvents()
       setImagesOnResize()
       setImagesOnOrientationChange()
@@ -238,7 +238,7 @@ const lazyload = () => {
     }
   }
 
-  document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener("DOMContentLoaded", function () {
     oldBrowserLazyload()
     modernBrowserLazyload(lazyloadImages)
   })
