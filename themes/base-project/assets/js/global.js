@@ -1,4 +1,13 @@
 function global() {
+  /* -- Enable active styles on iOS -- */
+  /* ------------------------------------------------------------ */
+  function enableiOSFocusStyles() {
+    Array.prototype.forEach.call(document.querySelectorAll("body *"), function (el) {
+      el.addEventListener("touchstart", function () {})
+    })
+  }
+  // $('body *').on('touchstart', function (){});
+
   /* -- Enable keyboard only focus styles -- */
   /* ------------------------------------------------------------ */
   function enableKeyboardFocusStyles() {
@@ -64,6 +73,8 @@ function global() {
     }
   }
 
+  /* -- Enable active styles on iOS -- */
+  enableiOSFocusStyles()
   /* -- Enable keyboard only focus styles -- */
   enableKeyboardFocusStyles()
 
@@ -71,4 +82,4 @@ function global() {
   detectPlatform()
 }
 
-global();
+global()
