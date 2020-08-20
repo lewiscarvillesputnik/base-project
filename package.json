@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "@babel/core": "7.11.1",
+    "@babel/preset-env": "7.11.0",
+    "@babel-cli": "7.10.5",
+    "prettier": "2.0.5",
+    "prettier-plugin-go-template": "0.0.7"
+  }
+}
