@@ -23,30 +23,30 @@
       {{ .Content | safeCSS }}
     </style>
     {{- end }}
-  {{ end }}
+  {{- end }}
     <script>!function(e){"use strict";var t=function(t,n,r,o){if(11!=function(){var e=navigator.userAgent.toLowerCase().indexOf("msie ");if(e>0){var t=parseInt(navigator.userAgent.substring(e+5,navigator.userAgent.indexOf(".",e)));return document.documentMode&&(t=document.documentMode),t<7&&(t=7),t}return!(!Object.hasOwnProperty.call(window,"ActiveXObject")||window.ActiveXObject)&&11}()){var i,a=e.document,d=a.createElement("link");if(n)i=n;else{var s=(a.body||a.getElementsByTagName("head")[0]).childNodes;i=s[s.length-1]}var u=a.styleSheets;if(o)for(var l in o)o.hasOwnProperty(l)&&d.setAttribute(l,o[l]);d.rel="stylesheet",d.href=t,d.media="only x",function e(t){if(a.body)return t();setTimeout(function(){e(t)})}(function(){i.parentNode.insertBefore(d,n?i:i.nextSibling)});var f=function(e){for(var t=d.href,n=u.length;n--;)if(u[n].href===t)return e();setTimeout(function(){f(e)})};function c(){d.addEventListener&&d.removeEventListener("load",c),d.media=r||"all"}return d.addEventListener&&d.addEventListener("load",c),d.onloadcssdefined=f,f(c),d}var v=document.createElement("link");v.rel="stylesheet",v.href=t,document.head.appendChild(v)};"undefined"!=typeof exports?exports.loadCSS=t:e.loadCSS=t}("undefined"!=typeof global?global:this);</script>
     <script>loadCSS({{ ($nonCriticalCSS).RelPermalink }})</script> {{- else }}
   {{- if eq $ENV "local" -}}
     {{ $CSS := resources.Get (printf "/scss/base-project.scss") | toCSS (dict "targetPath" (printf "/css/base-project.css") "enableSourceMap" true) }}
     <link rel="stylesheet" href="{{ ($CSS).RelPermalink }}" />
   {{- else -}}
-    {{ $CSS := resources.Get (printf "/scss/base-project.scss") | toCSS (dict "targetPath" (printf "/css/base-project.css") "enableSourceMap" true) | minify }}
-    {{ $secureCSS := $CSS | resources.Fingerprint "sha512" }}
+    {{- $CSS := resources.Get (printf "/scss/base-project.scss") | toCSS (dict "targetPath" (printf "/css/base-project.css") "enableSourceMap" true) | minify -}}
+    {{- $secureCSS := $CSS | resources.Fingerprint "sha512" -}}
     <link rel="stylesheet" href="{{ ($secureCSS).RelPermalink }}" integrity="{{ ($secureCSS).Data.Integrity }}" />
   {{ end }}
 {{ end }}
   </head>
-  <body ontouchstart="">
+  <body>
     {{ partial "header.html" }}
     <main class="main">
-      {{- block "main" . }}
-      <!-- The part of the page that begins to differ between templates -->
-      {{ end }}
+    {{- block "main" . }}
+    <!-- The part of the page that begins to differ between templates -->
+    {{ end }}
     </main>
     {{ partial "footer.html" }}
-    {{ $lazyload := resources.Get "js/lazyload.js" }}
-    {{ $global := resources.Get "js/global.js" }}
-    {{ $JS := slice $global $lazyload | resources.Concat "js/bundle.js" }}
+    {{ $lazyload := resources.Get "js/lazyload.js" -}}
+    {{- $global := resources.Get "js/global.js" -}}
+    {{- $JS := slice $global $lazyload | resources.Concat "js/bundle.js" -}}
   {{- if eq $ENV "local" -}}
     <script src="{{ ($JS).RelPermalink }}"></script>
   {{- else }}

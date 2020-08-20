@@ -1,0 +1,17 @@
+{
+	"version": 3,
+	"file": "home.css",
+	"sourceRoot": "/Users/lewis/Sites/hugo/base-project",
+	"sources": [
+		"themes/base-project/assets/scss/non-critical/home.scss",
+		"themes/base-project/assets/scss/_variables/_variables.scss",
+		"themes/base-project/assets/scss/components/footer.scss"
+	],
+	"sourcesContent": [
+		"@import \"../_variables/\";\n@import \"../components/footer\";\n",
+		"// Fonts\n$bold: 'Nunito Sans Bold', sans-serif;\n$regular: 'Nunito Sans Regular', sans-serif;\n\n// Primary Colours\n$primaryDark: #154d69;\n$primary: #145374;\n$primaryLight: #5588a3;\n$primaryXLight: #93b3c8;\n$greyXXLight: #f6f6f6;\n$greyXXXLight: #f1f1f1;\n$primaryPastelDark: #e6ebee;\n$primaryPastel: #e4ecf1;\n$primaryPastelLight: #cddfeb;\n\n// Secondary Colours\n$secondaryDark: #376472;\n$secondary: #5c9ead;\n$secondaryLight: #85b6c1;\n$secondaryXLight: #9cc5ce;\n$secondaryPastel: #e7f0f3;\n\n// Shades\n$black: #000000;\n$greyXDark: #333333;\n$greyDark: #b8b8b8;\n$grey: #c6c6c6;\n$greyLight: #dddddd;\n$greyXLight: #e8e8e8;\n$white: #ffffff;\n\n// Success Colours\n$success: #27ae60;\n\n// Alert Colours\n$alertDark: #c91818;\n$alert: #eb5757;\n$alertLight: #f39195;\n$alertXLight: #ffafaf;\n$alertPastel: #f7b6b6;\n$alertPastelLight: #fdeeee;\n\n// Disabled Colours\n$disabled: #dddddd;\n$disabledDark: #888888;\n\n// Section Colours\n$headerBackground: $primary;\n$footerBackground: $primary;\n$mainBackground: $greyXXXLight;\n",
+		"footer {\n  height: 40px;\n  background-color: $footerBackground;\n}\n"
+	],
+	"names": [],
+	"mappings": "AEAA,AAAA,MAAM,CAAC;EACL,MAAM,EAAE,IAAI;EACZ,gBAAgB,EDIR,OAAO,GCHhB"
+}
