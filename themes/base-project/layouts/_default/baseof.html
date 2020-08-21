@@ -42,6 +42,11 @@
     {{- block "main" . }}
     <!-- The part of the page that begins to differ between templates -->
     {{ end }}
+    {{- if .Params.Layout -}}
+    <br>
+    <br>
+    Template name: {{ $filename }}
+    {{ end }}
     </main>
     {{ partial "footer.html" }}
     {{ $lazyload := resources.Get "js/lazyload.js" -}}
