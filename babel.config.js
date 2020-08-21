@@ -5,13 +5,8 @@ module.exports = {
       {
         modules: false,
         targets: {
-          browsers: [
-            // Best practice: https://github.com/babel/babel/issues/7789
-            '>=1%',
-            'not ie 11',
-            'not op_mini all'
-          ]
-        }
+          browsers: 'Edge >= 15, Firefox >= 53, FirefoxAndroid  >= 53, Chrome >= 55, ChromeAndroid >= 55, Opera >= 42, OperaMobile >= 42, Safari >= 10.1, iOS >= 10.1',
+        },
       }
     ]
   ]
