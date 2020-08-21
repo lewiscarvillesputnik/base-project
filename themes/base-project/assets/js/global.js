@@ -1,38 +1,31 @@
-function global() {
+const global = (() => {
+
   /* -- Enable active styles on iOS -- */
   /* ------------------------------------------------------------ */
-  function enableiOSFocusStyles() {
-    Array.prototype.forEach.call(document.querySelectorAll("body *"), function (el) {
-      el.addEventListener("touchstart", function () {})
+  const enableiOSFocusStyles = (() => {
+    Array.prototype.forEach.call(document.querySelectorAll("body *"), (el) => {
+      el.addEventListener("touchstart", () => { })
     })
-  }
-  // $('body *').on('touchstart', function (){});
+  })();
 
   /* -- Enable keyboard only focus styles -- */
   /* ------------------------------------------------------------ */
-  function enableKeyboardFocusStyles() {
+  const enableKeyboardFocusStyles = (() => {
     var buttons = document.querySelectorAll("a, button")
 
     for (var i = 0; i < buttons.length; i++) {
       // Track mouse click on target elements
-      buttons[i].addEventListener("mousedown", function (e) {
+      buttons[i].addEventListener("mousedown", (e) => {
         e.preventDefault()
       })
     }
-  }
+  })();
 
-  const gregg = null
-  console.log(gregg)
-
-  const test = () => {
-    console.log(gregg, "in arrow function")
-  }
-  test()
   /* -- Detect if desktop or mobile platform -- */
   /* ------------------------------------------------------------ */
-  function detectPlatform() {
-    var getMobileOperatingSystem = function () {
-      var userAgent = navigator.userAgent || navigator.vendor || window.opera
+  const detectPlatform = (() => {
+    const getMobileOperatingSystem = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || window.opera
 
       if (/windows phone/i.test(userAgent)) {
         return "Windows Phone"
@@ -51,15 +44,15 @@ function global() {
 
     /* -- Detect if Windows or Mac platform -- */
     /* ------------------------------------------------------------ */
-    function isWindows() {
+    const isWindows = () => {
       return navigator.platform.indexOf("Win") > -1
     }
 
-    function isMacintosh() {
+    const isMacintosh = () => {
       return navigator.platform.indexOf("Mac") > -1
     }
 
-    var html = document.documentElement
+    const html = document.documentElement
 
     if (isWindows()) {
       html.classList.add("platform-windows")
@@ -78,15 +71,6 @@ function global() {
     if (getMobileOperatingSystem() === "iOS") {
       html.classList.add("platform-ios")
     }
-  }
+  })();
 
-  /* -- Enable active styles on iOS -- */
-  enableiOSFocusStyles()
-  /* -- Enable keyboard only focus styles -- */
-  enableKeyboardFocusStyles()
-
-  /* -- Detect if desktop or mobile platform -- */
-  detectPlatform()
-}
-
-global()
+})();

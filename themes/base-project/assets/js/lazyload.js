@@ -1,14 +1,14 @@
-function lazyload () {
+const lazyload = (() => {
   /* -- Lazyload & WebP Support -- */
   /* ------------------------------------------------------------ */
-  var config = {
-      rootMargin: "0px 0px 200px 0px",
-      threshold: 0,
-    },
+  const config = {
+    rootMargin: "0px 0px 200px 0px",
+    threshold: 0,
+  },
     lazyloadImages = document.querySelectorAll(".js-lazyload")
 
   /* Determine if browser supports webp image type */
-  function supportsWebp() {
+  const supportsWebp = () => {
     var elem = document.createElement("canvas")
     if (!!(elem.getContext && elem.getContext("2d"))) {
       var testString = !(window.mozInnerScreenX == null) ? "png" : "webp"
@@ -20,7 +20,7 @@ function lazyload () {
   }
 
   /* Determine which size image to display */
-  function imageSize(el) {
+  const imageSize = (el) => {
     /* Retina */
     var retina = window.matchMedia("(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)").matches,
       /* Desktop */
@@ -49,26 +49,26 @@ function lazyload () {
         return retinaTablet != undefined
           ? retinaTablet + imageFileType(el)
           : standardTablet != undefined
-          ? standardTablet + imageFileType(el)
-          : standardDesktop + imageFileType(el)
+            ? standardTablet + imageFileType(el)
+            : standardDesktop + imageFileType(el)
       } else if (tabletAltScreen && (retinaAltTablet != undefined || standardAltTablet != undefined)) {
         return retinaAltTablet != undefined
           ? retinaAltTablet + imageFileType(el)
           : standardAltTablet != undefined
-          ? standardAltTablet + imageFileType(el)
-          : standardDesktop + imageFileType(el)
+            ? standardAltTablet + imageFileType(el)
+            : standardDesktop + imageFileType(el)
       } else if (mobileScreen && (retinaMobile != undefined || standardMobile != undefined)) {
         return retinaMobile != undefined
           ? retinaMobile + imageFileType(el)
           : standardMobile != undefined
-          ? standardMobile + imageFileType(el)
-          : standardDesktop + imageFileType(el)
+            ? standardMobile + imageFileType(el)
+            : standardDesktop + imageFileType(el)
       } else if (mobileAltScreen && (retinaAltMobile != undefined || standardAltMobile != undefined)) {
         return retinaAltMobile != undefined
           ? retinaAltMobile + imageFileType(el)
           : standardAltMobile != undefined
-          ? standardAltMobile + imageFileType(el)
-          : standardDesktop + imageFileType(el)
+            ? standardAltMobile + imageFileType(el)
+            : standardDesktop + imageFileType(el)
       } else {
         return standardDesktop + imageFileType(el)
       }
@@ -94,7 +94,7 @@ function lazyload () {
   }
 
   /* Determine the image src and procedure for setting the image */
-  function imageType(el, src) {
+  const imageType = (el, src) => {
     if (el.hasAttribute("src")) {
       if (el.src !== src) {
         el.src = src
@@ -107,7 +107,7 @@ function lazyload () {
   }
 
   /* Determine image file type */
-  function imageFileType(el) {
+  const imageFileType = (el) => {
     var defaultFileType = el.getAttribute("data-filetype"),
       webp = el.getAttribute("data-uses-webp")
     if (typeof webp !== undefined && webp === "true" && supportsWebp()) {
@@ -124,12 +124,12 @@ function lazyload () {
     }
   }
   /* Set image */
-  function setImages(el) {
+  const setImages = (el) => {
     imageType(el, imageSize(el))
   }
 
   /* Fade in the image */
-  function fadeIn(el) {
+  const fadeIn = (el) => {
     if (!("classList" in document.documentElement) && Object.defineProperty && typeof HTMLElement !== "undefined") {
       // Support for IE9 / IE8
       el.className += " lazyloaded"
@@ -139,8 +139,8 @@ function lazyload () {
   }
 
   /* Set Images on resize */
-  function setImagesOnResize(image) {
-    window.addEventListener("resize", function () {
+  const setImagesOnResize = (image) => {
+    window.addEventListener("resize", () => {
       if ("IntersectionObserver" in window) {
         setImages(image)
       } else {
@@ -150,8 +150,8 @@ function lazyload () {
   }
 
   /* Set Images on orientationChange */
-  function setImagesOnOrientationChange(image) {
-    window.addEventListener("orientationChange", function () {
+  const setImagesOnOrientationChange = (image) => {
+    window.addEventListener("orientationChange", () => {
       if ("IntersectionObserver" in window) {
         setImages(image)
       } else {
@@ -161,8 +161,8 @@ function lazyload () {
   }
 
   /* Set Images on scroll */
-  function setImagesOnScroll(image) {
-    window.addEventListener("scroll", function () {
+  const setImagesOnScroll = (image) => {
+    window.addEventListener("scroll", () => {
       if (!("IntersectionObserver" in window)) {
         lazyloadViaEvents()
       }
@@ -170,13 +170,13 @@ function lazyload () {
   }
 
   /* Preload and set images */
-  function preloadImages(el, unobserveImage) {
+  const preloadImages = (el, unobserveImage) => {
     var preloadImage = new Image()
     preloadImage.src = imageSize(el)
     if (!preloadImage.src) {
       return
     }
-    preloadImage.onload = function () {
+    preloadImage.onload = () => {
       unobserveImage
       setImages(el)
       fadeIn(el)
@@ -184,10 +184,10 @@ function lazyload () {
   }
 
   /* Modern browser implementation of lazyload using Intersection Observer */
-  function modernBrowserLazyload(lazyloadImages) {
+  const modernBrowserLazyload = (lazyloadImages) => {
     if ("IntersectionObserver" in window && typeof lazyloadImages !== "undefined") {
-      var imageObserver = new IntersectionObserver(function (entries, self) {
-        entries.forEach(function (entry) {
+      var imageObserver = new IntersectionObserver((entries, self) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             self.unobserve(entry.target) // Unobserve the entry.target first otherwise the timings of the other functions will be thrown off
             preloadImages(entry.target)
@@ -196,30 +196,30 @@ function lazyload () {
           }
         })
       }, config)
-      lazyloadImages.forEach(function (image) {
+      lazyloadImages.forEach((image) => {
         imageObserver.observe(image)
       })
     }
   }
 
   /* Calculate Image Position */
-  function getCoordinates(el) {
+  const getCoordinates = (el) => {
     var rect = el.getBoundingClientRect()
     var LeftPos = rect.left
     var TopPos = rect.top
-    return {X: LeftPos, Y: TopPos}
+    return { X: LeftPos, Y: TopPos }
   }
 
   /* Lazyload images via image position */
-  function lazyloadViaEvents(lazyloadImages) {
+  const lazyloadViaEvents = (lazyloadImages) => {
     var lazyloadThrottleTimeout
     if (lazyloadThrottleTimeout) {
       clearTimeout(lazyloadThrottleTimeout)
     }
-    lazyloadThrottleTimeout = setTimeout(function () {
+    lazyloadThrottleTimeout = setTimeout(() => {
       var scrollTop = window.pageYOffset
       var lazyloadImages = document.querySelectorAll(".js-lazyload")
-      Array.prototype.forEach.call(lazyloadImages, function (innerEl, i) {
+      Array.prototype.forEach.call(lazyloadImages, (innerEl, i) => {
         if (getCoordinates(innerEl).Y < window.innerHeight + scrollTop) {
           setImages(innerEl)
           fadeIn(innerEl)
@@ -229,7 +229,7 @@ function lazyload () {
   }
 
   /* Old Browser (IE) implementation of lazyload using offset of image and scroll behaviour */
-  function oldBrowserLazyload() {
+  const oldBrowserLazyload = () => {
     if (!("IntersectionObserver" in window) && typeof lazyloadImages !== "undefined") {
       lazyloadViaEvents()
       setImagesOnResize()
@@ -238,10 +238,9 @@ function lazyload () {
     }
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", () => {
     oldBrowserLazyload()
     modernBrowserLazyload(lazyloadImages)
   })
-}
 
-lazyload();
+})();
