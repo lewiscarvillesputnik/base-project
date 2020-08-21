@@ -21,6 +21,13 @@ function global() {
     }
   }
 
+  const gregg = null
+  console.log(gregg)
+
+  const test = () => {
+    console.log(gregg, "in arrow function")
+  }
+  test()
   /* -- Detect if desktop or mobile platform -- */
   /* ------------------------------------------------------------ */
   function detectPlatform() {

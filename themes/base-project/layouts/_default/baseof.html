@@ -44,8 +44,8 @@
     {{ end }}
     </main>
     {{ partial "footer.html" }}
-    {{ $lazyload := resources.Get "js/lazyload.js" -}}
-    {{- $global := resources.Get "js/global.js" -}}
+    {{ $lazyload := resources.Get "js/lazyload.js" | babel -}}
+    {{- $global := resources.Get "js/global.js" | babel -}}
     {{- $JS := slice $global $lazyload | resources.Concat "js/bundle.js" -}}
   {{- if eq $ENV "local" -}}
     <script src="{{ ($JS).RelPermalink }}"></script>
