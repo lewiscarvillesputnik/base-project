@@ -11,9 +11,8 @@ const global = (() => {
   /* -- Enable keyboard only focus styles -- */
   /* ------------------------------------------------------------ */
   const enableKeyboardFocusStyles = (() => {
-    var buttons = document.querySelectorAll("a, button")
-
-    for (var i = 0; i < buttons.length; i++) {
+    const buttons = document.querySelectorAll("a, button")
+    for (let i = 0; i < buttons.length; i++) {
       // Track mouse click on target elements
       buttons[i].addEventListener("mousedown", (e) => {
         e.preventDefault()

@@ -9,9 +9,9 @@ const lazyload = (() => {
 
   /* Determine if browser supports webp image type */
   const supportsWebp = () => {
-    var elem = document.createElement("canvas")
+    const elem = document.createElement("canvas")
     if (!!(elem.getContext && elem.getContext("2d"))) {
-      var testString = !(window.mozInnerScreenX == null) ? "png" : "webp"
+      const testString = !(window.mozInnerScreenX == null) ? "png" : "webp"
       // was able or not to get WebP representation
       return elem.toDataURL("image/webp").indexOf("data:image/" + testString) == 0
     }
@@ -22,7 +22,7 @@ const lazyload = (() => {
   /* Determine which size image to display */
   const imageSize = (el) => {
     /* Retina */
-    var retina = window.matchMedia("(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)").matches,
+    let retina = window.matchMedia("(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)").matches,
       /* Desktop */
       standardDesktop = el.getAttribute("data-desktop-src"),
       retinaDesktop = el.getAttribute("data-desktop-retina-src"),
@@ -108,7 +108,7 @@ const lazyload = (() => {
 
   /* Determine image file type */
   const imageFileType = (el) => {
-    var defaultFileType = el.getAttribute("data-filetype"),
+    const defaultFileType = el.getAttribute("data-filetype"),
       webp = el.getAttribute("data-uses-webp")
     if (typeof webp !== undefined && webp === "true" && supportsWebp()) {
       return ".webp"
@@ -171,7 +171,7 @@ const lazyload = (() => {
 
   /* Preload and set images */
   const preloadImages = (el, unobserveImage) => {
-    var preloadImage = new Image()
+    const preloadImage = new Image()
     preloadImage.src = imageSize(el)
     if (!preloadImage.src) {
       return
@@ -186,7 +186,7 @@ const lazyload = (() => {
   /* Modern browser implementation of lazyload using Intersection Observer */
   const modernBrowserLazyload = (lazyloadImages) => {
     if ("IntersectionObserver" in window && typeof lazyloadImages !== "undefined") {
-      var imageObserver = new IntersectionObserver((entries, self) => {
+      const imageObserver = new IntersectionObserver((entries, self) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             self.unobserve(entry.target) // Unobserve the entry.target first otherwise the timings of the other functions will be thrown off
@@ -204,9 +204,9 @@ const lazyload = (() => {
 
   /* Calculate Image Position */
   const getCoordinates = (el) => {
-    var rect = el.getBoundingClientRect()
-    var LeftPos = rect.left
-    var TopPos = rect.top
+    const rect = el.getBoundingClientRect()
+    const LeftPos = rect.left
+    const TopPos = rect.top
     return { X: LeftPos, Y: TopPos }
   }
 
@@ -217,8 +217,8 @@ const lazyload = (() => {
       clearTimeout(lazyloadThrottleTimeout)
     }
     lazyloadThrottleTimeout = setTimeout(() => {
-      var scrollTop = window.pageYOffset
-      var lazyloadImages = document.querySelectorAll(".js-lazyload")
+      const scrollTop = window.pageYOffset
+      const lazyloadImages = document.querySelectorAll(".js-lazyload")
       Array.prototype.forEach.call(lazyloadImages, (innerEl, i) => {
         if (getCoordinates(innerEl).Y < window.innerHeight + scrollTop) {
           setImages(innerEl)
